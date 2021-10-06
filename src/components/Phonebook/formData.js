@@ -1,4 +1,4 @@
-const Form = {
+const FormData = {
   name: {
     type: "text",
     name: "name",
@@ -16,4 +16,4 @@ const Form = {
   },
 };
 
-export default Form;
+export default FormData;

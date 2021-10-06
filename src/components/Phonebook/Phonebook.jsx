@@ -2,7 +2,8 @@ import { Component } from "react";
 import styles from "./Phonebook.module.css";
 import { generate } from "shortid";
 import ContactsList from "../ContactsList/ContactsList";
-import Form from "./Form";
+import FormMain from "../Form/Form";
+import Filter from "../Filter/Filter";
 
 class Phonebook extends Component {
   state = {
@@ -13,16 +14,9 @@ class Phonebook extends Component {
       { id: "id-4", name: "Annie Copeland", number: "227-91-26" },
     ],
     filter: "",
-    name: "",
-    number: "",
   };
 
-  nameInputId = generate();
-  numberInputId = generate();
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-    const { name, number } = this.state;
+  addContact = ({ name, number }) => {
     const { contacts } = this.state;
     contacts.find((contact) => contact.name === name)
       ? alert(`${name} is already in contacts`)
@@ -42,11 +36,11 @@ class Phonebook extends Component {
     });
   };
 
-  filterInput = (e) => {
+  filterInput = () => {
     const { contacts, filter } = this.state;
     const FilterLowerCase = filter.toLowerCase();
     return contacts.filter((item) =>
-      item.name.toLowerCase().includes(FilterLowerCase)
+      item?.name?.toLowerCase().includes(FilterLowerCase)
     );
   };
 
@@ -58,52 +52,16 @@ class Phonebook extends Component {
   };
 
   render() {
-    const { name, number, filter } = this.state;
-    const { handleChange, handleSubmit, filterInput, onDelete } = this;
+    const { filter } = this.state;
+    const { handleChange, addContact, filterInput, onDelete } = this;
     const Contacts = filterInput();
     return (
       <div className={styles.container}>
         <h2 className={styles.Title}>Phonebook</h2>
-        <form className={styles.Form} onSubmit={handleSubmit}>
-          <div className={styles.FormContainer}>
-            <div className={styles.Name}>
-              <label className={styles.Label} htmlFor={this.nameInputId}>
-                Name
-                <input
-                  {...Form.name}
-                  className={styles.Input}
-                  required
-                  value={name}
-                  onChange={handleChange}
-                  id={this.nameInputId}
-                />
-              </label>
-            </div>
-            <div className={styles.Tel}>
-              <label className={styles.Label} htmlFor={this.numberInputId}>
-                Number
-                <input
-                  {...Form.number}
-                  className={styles.Input}
-                  required
-                  value={number}
-                  onChange={handleChange}
-                  id={this.numberInputId}
-                />
-              </label>
-            </div>
-            <button type="submit" className={styles.NameBtn}>
-              Add contact
-            </button>
-          </div>
-        </form>
+        <FormMain onSubmit={addContact} />
         <h2 className={styles.Title}>Contacts</h2>
-        <ContactsList
-          list={Contacts}
-          onChange={handleChange}
-          value={filter}
-          onDelete={onDelete}
-        />
+        <Filter onChange={handleChange} value={filter} />
+        <ContactsList list={Contacts} onDelete={onDelete} />
       </div>
     );
   }

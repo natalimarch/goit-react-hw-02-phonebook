@@ -27,14 +27,3 @@
 .Btn:focus {
   background-color: pink;
 }
-
-.Input {
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid #000;
-}
-
-.Input:hover,
-.Input:focus {
-  border: 1px solid pink;
-}

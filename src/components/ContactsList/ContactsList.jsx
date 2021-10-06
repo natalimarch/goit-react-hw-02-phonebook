@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./ContactsList.module.css";
 
-const ContactsList = ({ list, onChange, value, onDelete }) => {
+const ContactsList = ({ list, onDelete }) => {
   const AddNewContacts = list.map((item) => {
     const { name, number } = item;
     return (
@@ -21,13 +21,6 @@ const ContactsList = ({ list, onChange, value, onDelete }) => {
   });
   return (
     <>
-      <input
-        className={styles.Input}
-        onChange={onChange}
-        value={value}
-        type="text"
-        name="filter"
-      />
       <ul className={styles.List}>{AddNewContacts}</ul>
     </>
   );
