@@ -18,15 +18,21 @@ class Phonebook extends Component {
 
   addContact = ({ name, number }) => {
     const { contacts } = this.state;
-    contacts.find((contact) => contact.name === name)
-      ? alert(`${name} is already in contacts`)
-      : contacts.find((contact) => contact.number === number)
-      ? alert(`${number} is already in contacts`)
-      : this.setState((prevState) => {
-          const newContact = [...prevState.contacts];
-          newContact.push({ name: name, number: number, id: generate() });
-          return { contacts: newContact };
-        });
+    const isAvailableName = contacts.find((contact) => contact.name === name);
+    const isAvailableNumber = contacts.find(
+      (contact) => contact.number === number
+    );
+    if (isAvailableName) {
+      alert(`${name} is already in contacts`);
+    } else if (isAvailableNumber) {
+      alert(`${number} is already in contacts`);
+    } else {
+      this.setState((prevState) => {
+        const newContact = [...prevState.contacts];
+        newContact.push({ name: name, number: number, id: generate() });
+        return { contacts: newContact };
+      });
+    }
   };
 
   handleChange = (e) => {
